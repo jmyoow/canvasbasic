@@ -15,9 +15,20 @@
     <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
 
     <script>
+      function 라디안(각도) {
+        return 각도 * Math.PI / 180;
+      }
       // beginPath
       // arc
       // closePath
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+      context.beginPath();
+      context.arc(300, 200, 50, 0, 라디안(360), false);
+      context.stroke();
+      context.beginPath();
+      context.arc(500, 100, 20, 0, 라디안(360), false);
+      context.stroke();
     </script>
   </body>
 </html>

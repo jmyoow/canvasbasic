@@ -18,6 +18,14 @@
       // fillRect
       // clearRect
       // strokeRect
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      context.fillRect(50, 50, 100, 100);
+      context.fillStyle = 'red';
+      context.fillRect(0, 0, 100, 100);
+      context.clearRect(80, 80, 50, 50);
+      context.strokeRect(150, 150, 100, 100);
     </script>
   </body>
 </html>

@@ -13,11 +13,21 @@
     <script>
       // Canvas 지원 여부 확인
       if (Modernizr.canvas) {
-        console.log('Canvas를 지원하는 브라우저');
+        // console.log('Canvas를 지원하는 브라우저');
+      }
+
+      const canvas = document.querySelector('canvas');
+      if (canvas.getContext) {
+        console.log('캔버스 지원');
       }
     </script>
   </body>
 </html>
+
+
+
+
+
 
 
 
