@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      canvas {
+        background: #eee;
+      }
+      video {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Video</h1>
+    <video class="video" src="../images/video.mp4" autoplay muted loop></video>
+    <!-- <video class="video" src="../images/video.mp4" muted loop></video> -->
+    <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+
+    <div class="btns">
+      <button class="btn" data-color='red'>R</button>
+      <button class="btn" data-color='green'>G</button>
+      <button class="btn" data-color='blue'>B</button>
+      <button class="btn" data-color=''>Reset</button>
+    </div>
+
+    <script>
+      // 색상 변환
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+
+      const videoElem = document.querySelector('.video');
+      videoElem.addEventListener('canplaythrough', render);
+
+      const btnsElem = document.querySelector('.btns');
+
+      let imageData;
+      const particles = [];
+      let particle;
+      let colorValue;
+      let leng;
+
+      function render() {
+        ctx.drawImage(videoElem, 0, 0, 600, 400);
+        imageData = ctx.getImageData(0, 0, 600, 400);
+        leng = imageData.data.length / 4;
+
+        for (let i = 0; i < leng; i++) {
+          switch(colorValue) {
+            case 'red':
+              imageData.data[i * 4 + 0] = 255;
+              break;
+            case 'green':
+              imageData.data[i * 4 + 1] = 255;
+              break;
+            case 'blue':
+              imageData.data[i * 4 + 2] = 255;
+              break;
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        requestAnimationFrame(render);
+      }
+
+      btnsElem.addEventListener('click', function (e) {
+        colorValue = e.target.getAttribute('data-color');
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
