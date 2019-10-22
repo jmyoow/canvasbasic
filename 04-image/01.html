@@ -14,6 +14,20 @@
   <body>
     <h1>Image</h1>
     <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      // const imgElem = document.createElement('img');
+      const imgElem = new Image();
+      imgElem.src = '../images/ilbuni1.png';
+      imgElem.addEventListener('load', () => {
+        context.drawImage(imgElem, 50, 50);
+        context.drawImage(imgElem, 50, 50, 70, 120);
+        context.drawImage(imgElem, 100, 100, 200, 200, 0, 0, 100, 100);
+      });
+    </script>
   </body>
 </html>
 

@@ -19,6 +19,7 @@
       const canvas = document.querySelector('.canvas');
       const context = canvas.getContext('2d');
       let xPos = 10;
+      let timerId;
 
       function draw() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -28,10 +29,22 @@
         xPos += 1;
         // xPos = xPos + 3;
 
-        requestAnimationFrame(draw);
+        // if (xPos >= canvas.width-10) {
+        //   return;
+        // }
+
+        timerId = requestAnimationFrame(draw);
+
+        // if (xPos >= canvas.width-10) {
+        //   cancelAnimationFrame(timerId);
+        // }
       }
 
       draw();
+
+      canvas.addEventListener('click', () => {
+        cancelAnimationFrame(timerId);
+      });
     </script>
   </body>
 </html>
