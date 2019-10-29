@@ -25,7 +25,7 @@
       const canvas = document.querySelector('.canvas');
       const ctx = canvas.getContext('2d');
       ctx.font = 'bold 50px serif';
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'red';
 
       const videoElem = document.querySelector('.video');
       videoElem.addEventListener('canplaythrough', render);
@@ -37,6 +37,7 @@
       ];
 
       function render() {
+        console.log(videoElem.currentTime);
         ctx.drawImage(videoElem, 0, 0, 600, 400);
         
         for (let i = 0; i < messages.length; i++) {
