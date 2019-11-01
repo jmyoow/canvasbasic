@@ -13,7 +13,29 @@
 
   <body>
     <h1>Transform</h1>
-    <canvas class="canvas" width="500" height="300"></canvas>
+    <canvas class="canvas" width="500" height="500"></canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      context.fillRect(100, 100, 200, 200);
+      context.fillStyle = 'orange';
+      context.fillRect(150, 150, 200, 200);
+
+      context.save();
+
+      context.fillStyle = 'blue';
+      context.beginPath();
+      context.arc(300, 300, 50, 0, Math.PI*2, false);
+      context.fill();
+
+      context.restore();
+
+      context.beginPath();
+      context.arc(300, 300, 20, 0, Math.PI*2, false);
+      context.fill();
+    </script>
   </body>
 </html>
 
