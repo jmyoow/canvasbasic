@@ -13,7 +13,30 @@
 
   <body>
     <h1>Interaction</h1>
-    <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+    <canvas class="canvas" width="600" height="400"></canvas>
+    
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+
+      context.fillRect(200, 200, 100, 100);
+
+      function clickHandler(이벤트) {
+        // console.log(이벤트.clientX, 이벤트.clientY);
+        // console.log(이벤트.layerX, 이벤트.layerY);
+        const x = 이벤트.layerX;
+        const y = 이벤트.layerY;
+
+        if (x > 200 &&
+            x < 200 + 100 &&
+            y > 200 &&
+            y < 200 + 100) {
+          console.log('x ok');
+        }
+      }
+
+      canvas.addEventListener('click', clickHandler);
+    </script>
   </body>
 </html>
 
