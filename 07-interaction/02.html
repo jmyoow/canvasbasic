@@ -15,33 +15,22 @@
     <h1>Interaction</h1>
     <canvas class="canvas" width="600" height="400"></canvas>
     
+    <script src="utils.js"></script>
+    <script src="Box.js"></script>
+    <script src="Panel.js"></script>
     <script>
       const canvas = document.querySelector('.canvas');
       const context = canvas.getContext('2d');
       const boxes = [];
       const mousePos = {x: 0, y: 0};
+      let panel;
       let selectedBox; // 클릭된 box
+      let oX;
+      let oY;
+      let step; // 애플리케이션의 상태(단계)를 저장 1 ~ 4
+      let rafId;
 
       context.font = 'bold 30px sans-serif';
-
-      class Box {
-        constructor(index, x, y, speed) {
-          this.index = index;
-          this.x = x;
-          this.y = y;
-          this.speed = speed;
-          this.width = 100;
-          this.height = 100;
-          this.draw();
-        }
-
-        draw() {
-          context.fillStyle = 'rgba(0,0,0,0.5)';
-          context.fillRect(this.x, this.y, 100, 100);
-          context.fillStyle = '#fff';
-          context.fillText(this.index, this.x+30, this.y+30);
-        }
-      }
 
       function render() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -49,21 +38,71 @@
         let box;
         for (let i = 0; i < boxes.length; i++) {
           box = boxes[i];
-          box.x += box.speed;
-          if (box.x > canvas.width) {
-            box.x = -box.width;
-          }
+          // box.x += box.speed;
+          // if (box.x > canvas.width) {
+          //   box.x = -box.width;
+          // }
           box.draw();
         }
-        requestAnimationFrame(render);
+
+        switch (step) {
+          case 1:
+            for (let i = 0; i < boxes.length; i++) {
+              box = boxes[i];
+              box.x += box.speed;
+              if (box.x > canvas.width) {
+                box.x = -box.width;
+              }
+            }
+            break;
+
+          case 2:
+            // panel.scale += 0.05;
+            // 현재크기 = 현재크기 + (목표크기 - 현재크기)*0.1
+            // 감속
+            panel.scale = panel.scale + (1 - panel.scale)*0.1;
+            // 가속
+            // panel.scale = panel.scale + panel.scale*0.02;
+            // 각도 = 스케일(0~1) * 720;
+            panel.angle = panel.scale * 720;
+            panel.draw();
+            if (panel.scale >= 0.999) {
+              panel.scale = 1;
+              panel.angle = 720;
+              step = 3;
+            }
+            break;
+
+          case 3:
+            panel.draw();
+            break;
+        }
+
+        // console.log('render!');
+
+        rafId = requestAnimationFrame(render);
+        if (step === 3) {
+          panel.showContent();
+          cancelAnimationFrame(rafId);
+        }
       }
 
       let tempX, tempY, tempSpeed;
-      for (let i = 0; i < 10; i++) {
-        tempX = Math.random() * canvas.width * 0.8;
-        tempY = Math.random() * canvas.height * 0.8;
-        tempSpeed = Math.random() * 4 + 1;
-        boxes.push(new Box(i, tempX, tempY, tempSpeed));
+
+      function init() {
+        step = 1;
+        oX = canvas.width / 2;
+        oY = canvas.height / 2;
+        for (let i = 0; i < 10; i++) {
+          tempX = Math.random() * canvas.width * 0.8;
+          tempY = Math.random() * canvas.height * 0.8;
+          tempSpeed = Math.random() * 4 + 1;
+          boxes.push(new Box(i, tempX, tempY, tempSpeed));
+        }
+
+        panel = new Panel();
+
+        render();
       }
 
       canvas.addEventListener('click', e => {
@@ -82,13 +121,18 @@
           }
         }
 
-        if (selectedBox) {
-          console.log(selectedBox.index);
+        if (step === 1 && selectedBox) {
+          // console.log(selectedBox.index);
+          step = 2;
+        } else if (step === 3) {
+          step = 1;
+          panel.scale = 0.01;
           selectedBox = null;
+          render();
         }
       });
 
-      render();
+      init();
     </script>
   </body>
 </html>
